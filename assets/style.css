@@ -1,0 +1,9 @@
+#input-card {
+    margin-bottom: 50px;
+}
+
+#input-card .form-control, #input-card select {
+    margin-right: 10px;
+    border-radius: 5%;
+}
+
