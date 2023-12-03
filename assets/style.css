@@ -1,0 +1,4 @@
+ /* Cards hover effect */
+ .card:hover {
+  background-color: #84add7;   /* colour can be changed later on */ */
+}
