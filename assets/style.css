@@ -1,3 +1,4 @@
+/* set basic properties for the label  */
 label {
   width: 80px;
   height: 20px;
@@ -8,7 +9,7 @@ label {
   cursor: pointer;
   transition: 0.3s;
 }
-
+/* create pseudo element for the button */
 label::after {
   content: "";
   width: 180px;
@@ -19,13 +20,13 @@ label::after {
   border-radius: 180px;
 
 }
-
+/* toggle animation  */
 input {
   width: 0;
   height: 0;
   visibility: hidden;
 }
-
+/* change backgroun color when switch */
 input:checked + label {
   background: #242424;
 }
@@ -33,7 +34,7 @@ input:checked + label {
 input:checked + label:after {
   left: 490px;
   transform: translateX(-100%);
-  background: linear-gradient(180deg, #777, #3a3a3a) ;
+  background: linear-gradient(180deg, #777, #3a3a3a);
 }
 
 .background {
@@ -44,6 +45,7 @@ input:checked + label:after {
   position: absolute;
   transition: 0.3s;
 }
+/* color of the background when using the toggle */
 
 input:checked + label + .background {
   background: #242424;
