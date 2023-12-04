@@ -30,6 +30,10 @@ input:checked + label {
   background: #242424;
 }
 
+/* Cards hover effect */
+ .card:hover {
+  background-color: #84add7;   /* colour can be changed later on */
+
 input:checked + label:after {
   left: 490px;
   transform: translateX(-100%);
