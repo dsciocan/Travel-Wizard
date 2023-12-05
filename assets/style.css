@@ -1,3 +1,4 @@
+
 /* set basic properties for the label  */
 label {
   width: 80px;
@@ -9,6 +10,7 @@ label {
   cursor: pointer;
   transition: 0.3s;
 }
+
 /* create pseudo element for the button */
 label::after {
   content: "";
@@ -31,6 +33,11 @@ input:checked + label {
   background: #242424;
 }
 
+/* Cards hover effect */
+ .card:hover {
+  background-color: #84add7;   /* colour can be changed later on */
+ }
+ 
 input:checked + label:after {
   left: 490px;
   transform: translateX(-100%);
@@ -50,3 +57,28 @@ input:checked + label:after {
 input:checked + label + .background {
   background: #242424;
 }
+
+#input-card {
+    margin-bottom: 50px;
+} */
+
+
+/*input section css*/
+#input-card .form-control, #input-card select {
+    margin-right: 10px;
+    border-radius: 5%;
+}
+
+#input-card {
+    margin-bottom: 50px;
+}
+
+/*airport autocomplete scroll*/
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+* html .ui-autocomplete {
+    height: 100px;
+  }
