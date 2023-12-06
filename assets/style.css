@@ -82,3 +82,11 @@ input:checked + label + .background {
 * html .ui-autocomplete {
     height: 100px;
   }
+
+ .hidden {
+    display: none;
+}
+
+.tab {
+    color: black; 
+}
