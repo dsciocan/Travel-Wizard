@@ -1,24 +1,3 @@
-// // target the button using the data attribute we added earlier
-// const button = document.querySelector("[data-theme-toggle]");
-
-// button.addEventListener("click", () => {
-//   const newTheme = currentThemeSetting === "dark" ? "light" : "dark";
-
-//   // update the button text
-//   const newCta = newTheme === "dark" ? "Change to light theme" : "Change to dark theme";
-//   button.innerText = newCta;  
-
-//   // use an aria-label if you are omitting text on the button
-//   // and using sun/moon icons, for example
-//   button.setAttribute("aria-label", newCta);
-
-//   // update theme attribute on HTML to switch theme in CSS
-//   document.querySelector("html").setAttribute("data-theme", newTheme);
-
-//   // update in local storage
-//   localStorage.setItem("theme", newTheme);
-
-//   // update the currentThemeSetting in memory
 
 //Date pickcer code
 let startDate = $('#startDate')
@@ -126,6 +105,37 @@ $(document).ready(function() {
 
 })
 
+// weather API from https://openweathermap.org/
+var apiKey = "1fd1536f1b205d864c414f1b46152fdb";
+var apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// the city name comes from the input field  
+var searchBox = document.querySelector(".search input");
+var searchBtn = document.querySelector(".search button");
+// "data" gets all the infor about the weather from the selected city 
+var data;
+// create a function to get the information from the api
+function checkWeather(city) { 
+    var response = fetch(apiurl + city + `&appid=${apiKey}`).then(function (response) {
+             return response.json();
+           })
+           .then(function (data) {
+             console.log(data);
+// select elements from html to update the data we need to display
+document.querySelector(".city").innerHTML = data.name;
+document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+           })
+
+     
+}
+// create a button to send the info input to checkWeather()
+searchBtn.addEventListener("click", () => {
+    checkWeather(searchBox.value);
+    console.log(JSON.stringify(data));
+
+})
 var adultNumber;
 var seniorNumber; 
 var totalNumber;
