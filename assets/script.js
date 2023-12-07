@@ -3593,45 +3593,70 @@ function flightInfo() {
         ]
         }
     }`
+    var flightData;
     if(DEV_MODE){
         var preloadedResponse = JSON.parse(response);
-        var flightData = preloadedResponse.data.flights;
+        flightData = preloadedResponse.data.flights;
         console.log(flightData);  
+        for(i=0;i<2;i++) {
+            var cardDiv = $('<div id = "flightDetails"></div>');
+            var firstRow = $('<div class = row></div>');
+            var secondRow = $('<div class = row></div>');
+            var thirdRow = $('<div class = "row"></div>');
+            var fourthRow = $('<div class= "row button-row"></div>')
+            var flightNameDepart = $("<h5>").text("Departure flight: " + flightData[i].segments[0].legs[0].originStationCode + " (" + flightData[i].segments[0].legs[0].departureDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].departureDateTime.substring(12,16) + " )" +  " - " + flightData[0].segments[0].legs[0].destinationStationCode + " (" + flightData[i].segments[0].legs[0].arrivalDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].arrivalDateTime.substring(12,16) + " )");
+            var flightNameReturn = $("<h5>").text("Return Flight: " + flightData[i].segments[1].legs[0].originStationCode + " (" + flightData[i].segments[1].legs[0].departureDateTime.substring(0,10) + " , " + flightData[i].segments[1].legs[0].departureDateTime.substring(12,16) + " )" +  " - " + flightData[0].segments[1].legs[0].destinationStationCode + " (" + flightData[i].segments[1].legs[0].arrivalDateTime.substring(0,10) + " , " + flightData[i].segments[1].legs[0].arrivalDateTime.substring(12,16) + " )");
+            var airline = $("<p>").text("Airline: " + flightData[i].purchaseLinks[0].providerId);
+            var price = $("<p>").text("Total price: " + flightData[i].purchaseLinks[0].totalPrice + "GBP").addClass("flight-price");
+            var purchaseLink = $('<button type="button" class="btn btn-dark col-lg-2 flight-btn"><a href=' + flightData[i].purchaseLinks[0].url +'>Purchase Here</a></button>');
+            firstRow.append(flightNameDepart);
+            secondRow.append(flightNameReturn)
+            thirdRow.append(airline, price);
+            fourthRow.append(purchaseLink);
+            cardDiv.append(firstRow, secondRow, thirdRow, fourthRow)
+            $(".flight-cards").append(cardDiv);
+        }
     }
     else{
-        // const url = 'https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=LON&destinationAirportCode=PAR&date=2023-12-07&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=1&numSeniors=0&classOfService=ECONOMY&returnDate=2023-12-13&pageNumber=1&currencyCode=GBP';
-        // const options = {
-        //     method: 'GET',
-        //     headers: {
-        //         'X-RapidAPI-Key': 'db33c1e3fbmsh3306c740b331275p182a48jsnd483e7640601',
-        //         'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
-        //     }
-        // };
-        // console.log("in the function");
-        // try {
-        //     fetch(url, options).then(function (response) {
-        //       return response.json();
-        //     })
-        //     .then(function (data) {
-        //       console.log(data);
-        //     })
-        // } catch (error) {
-        //     console.error(error);
-        // }
+        const url = "https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=" + fromCode + "&destinationAirportCode=" + toCode + "&date=" + startDateVal + "&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=" + adultNumber + "&numSeniors="  + seniorNumber + "&classOfService=ECONOMY&returnDate=" + endDateVal + "&pageNumber=1&currencyCode=GBP";
+        const options = {
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'db33c1e3fbmsh3306c740b331275p182a48jsnd483e7640601',
+                'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
+            }
+        };
+        console.log("in the function");
+        console.log(url)
+        try {
+            fetch(url, options).then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+                console.log(data)
+                flightData = data.data.flights;
+                for(i=0;i<2;i++) {
+                    var cardDiv = $('<div id = "flightDetails"></div>');
+                    var firstRow = $('<div class = row></div>');
+                    var secondRow = $('<div class = row></div>');
+                    var thirdRow = $('<div class = "row"></div>');
+                    var fourthRow = $('<div class= "row button-row"></div>')
+                    var flightNameDepart = $("<h5>").text("Departure flight: " + flightData[i].segments[0].legs[0].originStationCode + " (" + flightData[i].segments[0].legs[0].departureDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].departureDateTime.substring(12,16) + " )" +  " - " + flightData[0].segments[0].legs[0].destinationStationCode + " (" + flightData[i].segments[0].legs[0].arrivalDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].arrivalDateTime.substring(12,16) + " )");
+                    var flightNameReturn = $("<h5>").text("Return Flight: " + flightData[i].segments[1].legs[0].originStationCode + " (" + flightData[i].segments[1].legs[0].departureDateTime.substring(0,10) + " , " + flightData[i].segments[1].legs[0].departureDateTime.substring(12,16) + " )" +  " - " + flightData[0].segments[1].legs[0].destinationStationCode + " (" + flightData[i].segments[1].legs[0].arrivalDateTime.substring(0,10) + " , " + flightData[i].segments[1].legs[0].arrivalDateTime.substring(12,16) + " )");
+                    var airline = $("<p>").text("Airline: " + flightData[i].purchaseLinks[0].providerId);
+                    var price = $("<p>").text("Total price: " + flightData[i].purchaseLinks[0].totalPrice + "GBP").addClass("flight-price");
+                    var purchaseLink = $('<button type="button" class="btn btn-dark col-lg-2 flight-btn"><a href=' + flightData[i].purchaseLinks[0].url +'>Purchase Here</a></button>');
+                    firstRow.append(flightNameDepart);
+                    secondRow.append(flightNameReturn)
+                    thirdRow.append(airline, price);
+                    fourthRow.append(purchaseLink);
+                    cardDiv.append(firstRow, secondRow, thirdRow, fourthRow)
+                    $(".flight-cards").append(cardDiv);
+                }
+            })
+        } catch (error) {
+            console.error(error);
+        }
     }
-    for(i=0;i<2;i++) {
-        var cardDiv = $('<div id = "flightDetails"></div>');
-        var firstRow = $('<div class = row></div>');
-        var secondRow = $('<div class = row></div>');
-        var thirdRow = $('<div class = "row button-row"></div>');
-        var flightName = $("<h4>").text(flightData[i].segments[0].legs[0].originStationCode + " (" + flightData[i].segments[0].legs[0].departureDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].departureDateTime.substring(12,16) + " )" +  " - " + flightData[0].segments[0].legs[0].destinationStationCode + " (" + flightData[i].segments[0].legs[0].arrivalDateTime.substring(0,10) + " , " + flightData[i].segments[0].legs[0].arrivalDateTime.substring(12,16) + " )");
-        var airline = $("<p>").text("Airline: " + flightData[i].purchaseLinks[0].providerId);
-        var price = $("<p>").text("Total price: " + flightData[i].purchaseLinks[0].totalPrice + "GBP").addClass("flight-price");
-        var purchaseLink = $('<button type="button" class="btn btn-dark col-lg-2 flight-btn"><a href=' + flightData[i].purchaseLinks[0].url +'>Purchase Here</a></button>');
-        firstRow.append(flightName);
-        secondRow.append(airline, price);
-        thirdRow.append(purchaseLink);
-        cardDiv.append(firstRow, secondRow, thirdRow)
-        $(".flight-cards").append(cardDiv);
-    } 
+ 
 }
