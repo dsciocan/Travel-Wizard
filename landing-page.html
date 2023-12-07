@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -69,7 +70,7 @@
       <div class="col-lg-6">
         <h1 class="display-4">Travel Wizard</h1>
         <h3 class="display-6">Plan your trip so smoothly it feels like magic!</h3>
-        <p class="lead">Search for a destination below or pick a random one if you're feeling lucky</p>
+        <p class="lead">Search for a destination below or check out our suggestions</p>
       </div>
     </div>
   </div>
@@ -93,8 +94,8 @@
 <!--Destination input row-->
             <div class="row">
             <div class="input-group mb-3">
-                <input type="text" class="form-control col-md-5 autocomplete" id="from" placeholder="Start typing the name of a city or airport" aria-label="From:">
-                <input type="text" class="form-control col-md-5 autocomplete" id="to" placeholder="Start typing the name of a city or airport" aria-label="To:">
+                <input type="text" class="form-control col-md-5 autocomplete input" id="from" placeholder="Start typing the name of a city or airport" aria-label="From:">
+                <input type="text" class="form-control col-md-5 autocomplete input" id="to" placeholder="Start typing the name of a city or airport" aria-label="To:">
             </div>
             </div>
 <!--Date input rows-->
@@ -104,8 +105,8 @@
             </div>
             <div class="row">
             <div class="input-group mb-3">
-                <input id="startDate" type="date" class="form-control col-md-5" placeholder="Departure Date" aria-label="Departure Date" type="date">
-                <input id="endDate" type="date" class="form-control col-md-5" placeholder="Return Date" aria-label="Return Date" type="date">
+                <input id="startDate" type="date" class="form-control col-md-5 input" placeholder="Departure Date" aria-label="Departure Date" type="date">
+                <input id="endDate" type="date" class="form-control col-md-5 input" placeholder="Return Date" aria-label="Return Date" type="date">
             </div>
             </div>
             <div class="row">
@@ -115,21 +116,23 @@
             <div class="row">
                 <div class="input-group mb-3">
                     <label for="basic-url" class="form-label col-md-3">No. of Passengers:</label>
-                    <select class="form-select col-md-3" aria-label="Default select example">
+                    <select class="form-select col-md-3 input" id="adult-dropdown" aria-label="Default select example">
                         <option selected>Adults</option>
-                        <option value="1">1 Adult</option>
-                        <option value="2">2 Adults</option>
-                        <option value="3">3 Adults</option>
-                        <option value="4">4 Adults</option>
-                        <option value="5">5 Adults</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
-                    <select class="form-select col-md-3" aria-label="Default select example">
-                        <option selected>Children</option>
-                        <option value="1">1 Child</option>
-                        <option value="2">2 Children</option>
-                        <option value="3">3 Children</option>
-                        <option value="4">4 Children</option>
-                        <option value="5">5 Children</option>
+                    <select class="form-select col-md-3 input" id="senior-dropdown" aria-label="Default select example">
+                        <option selected>Seniors</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
                     </select>
                 </div>
             </div>
@@ -144,102 +147,88 @@
 <!-- End of user Input Section-->
 
 <!--Results UI-->
+<div class="container results">
 <div class="container col-lg-10 hidden" id="results">
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active tab" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Flights</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link tab" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Hotels</button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link tab" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Weather</button>
-    </li>
-  </ul>
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+    <!--Flight Tab-->
         <div class="card text-center mx-auto" >
             <div class="card-header">
                 <h3> Best flight deals for you </h3>
             </div>
-            <div class="card-body"> 
+            <div class="card-body flight-cards"> 
             </div> 
     </div>
-    </div>
-    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+    <!--Hotel section-->
         <div class="card text-center mx-auto" >
             <div class="card-header">
                 <h3> Best hotel deals for you </h3>
             </div>
-            <div class="card-body"> 
+            <div class="card-body hotel-cards"> 
+                Coming soon!
             </div>
     </div>
-    </div>
-    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+    <!--Weather section-->
         <div class="card text-center mx-auto" >
             <div class="card-header">
                 <h3>Don't forget to check the weather! </h3>
             </div>
-            <div class="card-body"> 
+            <div class="card-body weather-cards"> 
             </div>
     </div>
-  </div>
+</div>
 </div>
 </div>
 
 <!-- Cards section -->
+
 <div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row text-center suggestion-text">
+        <h4>Suggested Destinations</h4>
+    </div>
+  <div class="row row-cols-1 row-cols-md-3 g-4 destination-cards">
       <!-- First card -->
       <div class="col">
-          <a href="#" class="text-decoration-none">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/300/200" class="card-img-top" alt="Card image">
+                  <img src="https://lp-cms-production.imgix.net/features/2017/09/dubai-marina-skyline-2c8f1708f2a1.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 1</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta explicabo repellendus repellat doloremque, maiores quia voluptas.</p>
+                      <h5 class="card-title text-dark">Dubai</h5>
+                      <p class="card-text text-dark">One of the most popular destinations right now, Dubai is a destination that mixes modern culture with history, adventure with world-class shopping and entertainment. </p>
                   </div>
               </div>
-          </a>
       </div>
 
       <!-- Second card -->
       <div class="col">
-          <a href="#" class="text-decoration-none">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/seed/picsum/300/200
-                  " class="card-img-top" alt="Card image">
+                  <img src="https://media.timeout.com/images/105211701/750/422/image.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 2</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit qui perferendis nesciunt, mollitia autem in hic!</p>
+                      <h5 class="card-title text-dark">Rome</h5>
+                      <p class="card-text text-dark">Rome wasn't built in a day--and you'll need much more than a day to take in this timeless city. The city is a real-life collage of piazzas, open-air markets, and astonishing historic sites.</p>
                   </div>
               </div>
-          </a>
       </div>
 
       <!-- Third card -->
       <div class="col">
-          <a href="#" class="text-decoration-none">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/300/200" class="card-img-top" alt="Card image">
+                  <img src="https://a.cdn-hotels.com/gdcs/production170/d1541/37153966-167c-4334-9b81-823d6ffce6dd.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 3</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, aspernatur sint. Doloremque temporibus beatae omnis ea!</p>
+                      <h5 class="card-title text-dark">Crete</h5>
+                      <p class="card-text text-dark">The birthplace of both the king of the Olympian gods and of modern European civilization, Crete is a Mediterranean jewel. It’s rich with archaeological and mythological history that’s reflected in its ancient ruins and cultural attractions. </p>
                   </div>
               </div>
-          </a>
       </div>
   </div>
 </div>
 
 <!-- Button for random destinations -->
-<div class="container mt-4 mb-4">
+<!-- <div class="container mt-4 mb-4">
   <div class="row">
       <div class="col text-center">
           <a href="#" class="btn btn-primary btn-lg">Take Me Anywhere</a>
       </div>
   </div>
-</div>
+</div> -->
 
 <!-- Footer -->
 <footer class="bg-dark text-center text-white">

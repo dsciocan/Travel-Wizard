@@ -90,3 +90,34 @@ input:checked + label + .background {
 .tab {
     color: black; 
 }
+
+#flightDetails {
+    border: solid 1px grey;
+    border-radius: 30px;
+    margin-bottom: 40px;
+}
+
+
+.flight-btn a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.flight-btn {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.suggestion-text {
+  margin-bottom: 10px;
+}
+
+.destination-cards {
+  margin-bottom: 50px;
+}
+
+.loading {
+  color: teal;
+}
