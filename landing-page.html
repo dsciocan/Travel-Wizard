@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -69,7 +70,7 @@
       <div class="col-lg-6">
         <h1 class="display-4">Travel Wizard</h1>
         <h3 class="display-6">Plan your trip so smoothly it feels like magic!</h3>
-        <p class="lead">Search for a destination below or pick a random one if you're feeling lucky</p>
+        <p class="lead">Search for a destination below or check out our suggestions</p>
       </div>
     </div>
   </div>
@@ -146,6 +147,7 @@
 <!-- End of user Input Section-->
 
 <!--Results UI-->
+<div class="container results">
 <div class="container col-lg-10 hidden" id="results">
   <div class="tab-content" id="myTabContent">
     <!--Flight Tab-->
@@ -162,7 +164,7 @@
                 <h3> Best hotel deals for you </h3>
             </div>
             <div class="card-body hotel-cards"> 
-                
+                Coming soon!
             </div>
     </div>
     <!--Weather section-->
@@ -175,18 +177,22 @@
     </div>
 </div>
 </div>
+</div>
 
 <!-- Cards section -->
 
 <div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row text-center suggestion-text">
+        <h4>Suggested Destinations</h4>
+    </div>
+  <div class="row row-cols-1 row-cols-md-3 g-4 destination-cards">
       <!-- First card -->
       <div class="col">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/300/200" class="card-img-top" alt="Card image">
+                  <img src="https://lp-cms-production.imgix.net/features/2017/09/dubai-marina-skyline-2c8f1708f2a1.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 1</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta explicabo repellendus repellat doloremque, maiores quia voluptas.</p>
+                      <h5 class="card-title text-dark">Dubai</h5>
+                      <p class="card-text text-dark">One of the most popular destinations right now, Dubai is a destination that mixes modern culture with history, adventure with world-class shopping and entertainment. </p>
                   </div>
               </div>
       </div>
@@ -194,11 +200,10 @@
       <!-- Second card -->
       <div class="col">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/seed/picsum/300/200
-                  " class="card-img-top" alt="Card image">
+                  <img src="https://media.timeout.com/images/105211701/750/422/image.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 2</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sit qui perferendis nesciunt, mollitia autem in hic!</p>
+                      <h5 class="card-title text-dark">Rome</h5>
+                      <p class="card-text text-dark">Rome wasn't built in a day--and you'll need much more than a day to take in this timeless city. The city is a real-life collage of piazzas, open-air markets, and astonishing historic sites.</p>
                   </div>
               </div>
       </div>
@@ -206,10 +211,10 @@
       <!-- Third card -->
       <div class="col">
               <div class="card h-100 border-0 shadow-sm">
-                  <img src="https://picsum.photos/300/200" class="card-img-top" alt="Card image">
+                  <img src="https://a.cdn-hotels.com/gdcs/production170/d1541/37153966-167c-4334-9b81-823d6ffce6dd.jpg" class="card-img-top" alt="Card image">
                   <div class="card-body text-dark">
-                      <h5 class="card-title text-dark">Destination 3</h5>
-                      <p class="card-text text-dark">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla, aspernatur sint. Doloremque temporibus beatae omnis ea!</p>
+                      <h5 class="card-title text-dark">Crete</h5>
+                      <p class="card-text text-dark">The birthplace of both the king of the Olympian gods and of modern European civilization, Crete is a Mediterranean jewel. It’s rich with archaeological and mythological history that’s reflected in its ancient ruins and cultural attractions. </p>
                   </div>
               </div>
       </div>

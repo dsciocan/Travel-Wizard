@@ -146,10 +146,11 @@ $("#senior-dropdown").on('change', function(){
 });
 
 
-
+var loading;
 
 $("#search-button").on('click', function() {
-    $("#results").removeClass("hidden");
+    loading = $('<h3 class="loading">').text("Please wait while we get your results. In the meantime check out our suggestions!");
+    $(".results").prepend(loading)
     flightInfo()
 });
 
@@ -3616,6 +3617,8 @@ function flightInfo() {
             cardDiv.append(firstRow, secondRow, thirdRow, fourthRow)
             $(".flight-cards").append(cardDiv);
         }
+        $("#results").removeClass("hidden");
+        loading.addClass("hidden")
     }
     else{
         const url = "https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=" + fromCode + "&destinationAirportCode=" + toCode + "&date=" + startDateVal + "&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=" + adultNumber + "&numSeniors="  + seniorNumber + "&classOfService=ECONOMY&returnDate=" + endDateVal + "&pageNumber=1&currencyCode=GBP";
@@ -3635,7 +3638,7 @@ function flightInfo() {
             .then(function (data) {
                 console.log(data)
                 flightData = data.data.flights;
-                for(i=0;i<2;i++) {
+                for(i=0;i<3;i++) {
                     var cardDiv = $('<div id = "flightDetails"></div>');
                     var firstRow = $('<div class = row></div>');
                     var secondRow = $('<div class = row></div>');
@@ -3653,6 +3656,7 @@ function flightInfo() {
                     cardDiv.append(firstRow, secondRow, thirdRow, fourthRow)
                     $(".flight-cards").append(cardDiv);
                 }
+                $("#results").removeClass("hidden");
             })
         } catch (error) {
             console.error(error);

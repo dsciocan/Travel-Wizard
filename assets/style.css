@@ -109,3 +109,15 @@ input:checked + label + .background {
     margin-left: auto;
     margin-right: auto;
 }
+
+.suggestion-text {
+  margin-bottom: 10px;
+}
+
+.destination-cards {
+  margin-bottom: 50px;
+}
+
+.loading {
+  color: teal;
+}
