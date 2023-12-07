@@ -146,7 +146,7 @@ document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 
      
 }
-
+// create a button to send the info input to checkWeather()
 searchBtn.addEventListener("click", () => {
     checkWeather(searchBox.value);
     console.log(JSON.stringify(data));
