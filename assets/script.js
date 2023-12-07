@@ -3664,3 +3664,6 @@ function flightInfo() {
     }
  
 }
+
+//variable names for destination city: toCity departure date: startDateVal return date: endDateVal
+//add info to the div with the weather-cards class
