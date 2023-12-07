@@ -123,19 +123,21 @@ $(document).ready(function() {
 
 // weather API from https://openweathermap.org/
 var apiKey = "1fd1536f1b205d864c414f1b46152fdb";
-var apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";  
+var apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+// the city name comes from the input field  
 var searchBox = document.querySelector(".search input");
 var searchBtn = document.querySelector(".search button");
-
+// "data" gets all the infor about the weather from the selected city 
 var data;
-
+// create a function to get the information from the api
 function checkWeather(city) { 
     var response = fetch(apiurl + city + `&appid=${apiKey}`).then(function (response) {
              return response.json();
            })
            .then(function (data) {
              console.log(data);
-             document.querySelector(".city").innerHTML = data.name;
+// select elements from html to update the data we need to display
+document.querySelector(".city").innerHTML = data.name;
 document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
 document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
 document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
@@ -144,6 +146,7 @@ document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 
      
 }
+
 searchBtn.addEventListener("click", () => {
     checkWeather(searchBox.value);
     console.log(JSON.stringify(data));
