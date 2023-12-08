@@ -121,3 +121,11 @@ input:checked + label + .background {
 .loading {
   color: teal;
 }
+
+.navbar a {
+  color: white;
+}
+
+.navbar a:hover {
+  color:deepskyblue;
+}
