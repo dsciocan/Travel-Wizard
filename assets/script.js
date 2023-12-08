@@ -159,11 +159,14 @@ $("#senior-dropdown").on('change', function(){
 
 var loading;
 
+
+// Search button press
+
 $("#search-button").on('click', function() {
     loading = $('<h3 class="loading">').text("Please wait while we get your results. In the meantime check out our suggestions!");
     $(".results").prepend(loading)
     flightInfo()
-    initiateHotelSearch();
+    // initiateHotelSearch();
     checkWeather(toCity);
     console.log(JSON.stringify(data));
 });
@@ -243,49 +246,49 @@ function flightInfo() {
  
 }
 
-// Tripadvisor Hotel Search
-    // API Key, Url
-    const HotelApiKey = 'EF7B1C98A7D0465FAEADD693B60AA8B5';
-    const baseUrl = 'https://api.tripadvisor.com/poi/v1/';
-    // Search hotels on TripAdvisor
-    function searchHotelsOnTripAdvisor(destination) {
-        const endpoint = `${baseUrl}hotels`;
-        const params = {
-            apikey: apiKey,
-            q: destination,
-            limit: 5 // Show "xxx"(10) amount of hotels on search
-        };
-        const queryString = new URLSearchParams(params).toString();
-        const url = `${endpoint}?${queryString}`;
-        return fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch hotels');
-                }
-                return response.json();
-            })
-            .then(data => {
-                return data.data;
-            });
-    }
-    // Display hotel information
-    function displayHotels(hotels) {
-        // Show hotels on UI
-    }
-    // Show after flight details
-    function initiateHotelSearch() {
-        const destination = $("#to").val(); // Fetch the destination from user input field
-        searchHotelsOnTripAdvisor(destination)
-            .then(displayHotels)
-            .catch(error => {
-                console.error(error);
-                $(".results .hotel-cards").html("<p>Failed to fetch hotel information.</p>");
-            });
-    }
-    // Hotel search when button clicked
-    // $("#search-button").on('click', function () {
+// // Bahar - Tripadvisor Hotel Search
+//     // API Key, Url
+//     const HotelApiKey = 'EF7B1C98A7D0465FAEADD693B60AA8B5';
+//     const baseUrl = 'https://api.tripadvisor.com/poi/v1/';
+//     // Search hotels on TripAdvisor
+//     function searchHotelsOnTripAdvisor(destination) {
+//         const endpoint = `${baseUrl}hotels`;
+//         const params = {
+//             apikey: apiKey,
+//             q: destination,
+//             limit: 5 // Show "xxx"(10) amount of hotels on search
+//         };
+//         const queryString = new URLSearchParams(params).toString();
+//         const url = `${endpoint}?${queryString}`;
+//         return fetch(url)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Failed to fetch hotels');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 return data.data;
+//             });
+//     }
+//     // Display hotel information
+//     function displayHotels(hotels) {
+//         // Show hotels on UI
+//     }
+//     // Show after flight details
+//     function initiateHotelSearch() {
+//         const destination = $("#to").val(); // Fetch the destination from user input field
+//         searchHotelsOnTripAdvisor(destination)
+//             .then(displayHotels)
+//             .catch(error => {
+//                 console.error(error);
+//                 $(".results .hotel-cards").html("<p>Failed to fetch hotel information.</p>");
+//             });
+//     }
+//     // Hotel search when button clicked
+//     // $("#search-button").on('click', function () {
 
-    // });
+//     // });
     
 
 
