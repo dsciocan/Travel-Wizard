@@ -45,8 +45,18 @@ Distributed under the MIT License. See LICENSE.txt for more information.
 ## Features
 
 * HTML
-* JAVASCRIPT
-* APIs
+* Bootstrap
+* JavaScript
+* jQuery, jQueryUI
+* APIs: [OpenWeatherMap](https://openweathermap.org/api) and [TripAdvisor](https://rapidapi.com/DataCrawler/api/tripadvisor16)
+
+
+## Credits
+
+* Airport names list from [here](https://codepen.io/imdunn/pen/wqNbqV)
+* Date picker code adapted from [here](https://www.codeply.com/p/zU0EWDmIfn)
+
+
 
 ## How to Contribute
 
