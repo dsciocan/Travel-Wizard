@@ -29,7 +29,7 @@ Step into a world of travel enchantment with Travel Wizard! We weave together th
 
 ## Installation
 
-Please click [here](https://https://dsciocan.github.io/Travel-Wizard) to view our project.
+Please click [here](https://dsciocan.github.io/Travel-Wizard/) to view our project.
 
 ## Usage
 
