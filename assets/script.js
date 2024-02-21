@@ -137,24 +137,24 @@ document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
 // })
 
 
-var adultNumber;
-var seniorNumber; 
-var totalNumber;
+// var adultNumber;
+// var seniorNumber; 
+// var totalNumber;
 
-$("#adult-dropdown").on('change', function(){
-    adultNumber = $("#adult-dropdown option:selected").text();
-    console.log(adultNumber);
-    totalNumber = Number(adultNumber) + Number(seniorNumber);
-    console.log(totalNumber)
-});
+// $("#adult-dropdown").on('change', function(){
+//     adultNumber = $("#adult-dropdown option:selected").text();
+//     console.log(adultNumber);
+//     totalNumber = Number(adultNumber) + Number(seniorNumber);
+//     console.log(totalNumber)
+// });
 
 
-$("#senior-dropdown").on('change', function(){
-    seniorNumber = $("#senior-dropdown option:selected").text();
-    totalNumber = Number(adultNumber) + Number(seniorNumber);
-    console.log(seniorNumber);
-    console.log(totalNumber)
-});
+// $("#senior-dropdown").on('change', function(){
+//     seniorNumber = $("#senior-dropdown option:selected").text();
+//     totalNumber = Number(adultNumber) + Number(seniorNumber);
+//     console.log(seniorNumber);
+//     console.log(totalNumber)
+// });
 
 
 var loading;
@@ -169,6 +169,7 @@ $("#search-button").on('click', function() {
     // initiateHotelSearch();
     checkWeather(toCity);
     console.log(JSON.stringify(data));
+    getToken();
 });
 
 
@@ -201,7 +202,7 @@ function flightInfo() {
         loading.addClass("hidden")
     }
     else{
-        const url = "https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=" + fromCode + "&destinationAirportCode=" + toCode + "&date=" + startDateVal + "&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=" + adultNumber + "&numSeniors="  + seniorNumber + "&classOfService=ECONOMY&returnDate=" + endDateVal + "&pageNumber=1&currencyCode=GBP";
+        const url = "https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights?sourceAirportCode=" + fromCode + "&destinationAirportCode=" + toCode + "&date=" + startDateVal + "&itineraryType=ROUND_TRIP&sortOrder=PRICE&numAdults=1&numSeniors=0&classOfService=ECONOMY&returnDate=" + endDateVal + "&pageNumber=1&currencyCode=GBP";
         const options = {
             method: 'GET',
             headers: {
@@ -209,7 +210,6 @@ function flightInfo() {
                 'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
             }
         };
-        console.log("in the function");
         console.log(url)
         try {
             fetch(url, options).then(function (response) {
@@ -245,6 +245,138 @@ function flightInfo() {
     }
  
 }
+
+
+//hotel search 
+let token;
+function getToken() {
+    fetch('https://test.api.amadeus.com/v1/security/oauth2/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'grant_type=client_credentials&client_id=dz4cRgXFZjSpBxBB4XAfW8ku8I5kJGyy&client_secret=DYBVT7v3LUwz24Tu'
+      })
+      .then (function(response) {
+        return response.json();
+      })
+      .then(function (data) {
+        token = data.access_token
+        console.log(token)
+        hotel(token)
+      })
+}
+
+
+    function hotel(token) {
+        const url = `https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode=${toCode}&radius=10&radiusUnit=KM&ratings=4,5&hotelSource=ALL`;
+        const options = {method:"get",
+        headers: {
+            'Content-Type': "/reference-data/locations/hotels/by-city",
+            'Authorization' : `Bearer ${token}`}}
+                try {
+
+                    fetch(url, options)
+                    .then(function (response) {
+                      return response.json();
+                    })
+                    .then(function (data) {
+                        console.log(data)
+                        for (i=0;i<5;i++) {
+                            var cardDiv = $(`<div class = "hotelDetails" id=${data.data[i].hotelId}></div>`);
+                            var firstRow = $('<div class = row></div>');
+                            var secondRow = $('<div class = row></div>');
+                            var thirdRow = $('<div class = "row"></div>');
+                            var hotelName = $("<h5>").text("Hotel Name: " + data.data[i].name);
+                            var hotelRating = $("<h5>").text("Rating: " + data.data[i].rating + "/5");
+                            var details = $('<button type="button" class="btn btn-dark col-lg-2 hotel-btn"> View Details <button/>');
+                            details.on("click", () => {
+                                hotelDetails(data.data[i].hotelId)
+                            });
+                            firstRow.append(hotelName);
+                            secondRow.append(hotelRating)
+                            thirdRow.append(details);
+                            cardDiv.append(firstRow, secondRow, thirdRow);
+                            $(".hotel-cards").append(cardDiv);
+                    
+                                  }
+                        $("#results").removeClass("hidden");
+                        loading.addClass("hidden");
+
+                    })
+    }
+
+catch (error) {
+    console.error(error);
+}
+    }
+
+    // onclick=${hotelDetails(data.data[i].hotelId)}
+
+
+    function hotelDetails(id) {
+        const indUrl = `https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=${id}&adults=1&checkInDate=${startDateVal}&checkOutDate=${endDateVal}&roomQuantity=1&currency=GBP&paymentPolicy=NONE&includeClosed=false&bestRateOnly=true`
+        const indOptions = {method:"get",
+        headers: {
+            'Content-Type': "/shopping/hotel-offers",
+            'Authorization' : `Bearer ${token}`}}
+            fetch(indUrl, indOptions)
+            .then(function (response) {
+                if(response) {
+                return response.json();
+                } else {
+                    const fourthRow = $('<div class = row></div>')
+                    const error = $('<p>').text(`Hotel unavailable, please try another hotel or destination.`)
+                    fourthRow.append(error)
+                    $(`#${id}`).append(fourthRow)
+                }
+              })
+              .then(function (data) {
+                if(data) {
+                const avail = data.data[0].available;
+                const fourthRow = $('<div class = row></div>')
+                const fifthRow = $('<div class = row></div>')
+                if(avail == true) {
+                    let available = $('<p>').text("Available")
+                    let price = $('<p>').text(`Price: ${data.data[0].offers[0].price.total}GBP`)
+                    let type = $('<p>').text(`Room Type: ${data.data[0].offers[0].room.typeEstimated.bedType}`)
+                    let description = $('<p>').text(`Room Description: ${data.data[0].offers[0].room.description}`)
+                    fourthRow.append(available, price, type)
+                    fifthRow.append(description)
+                    cardDiv.append(fourthRow, fifthRow)
+
+                } else if(avail == false || data.status == "400") {
+                    let available = $('<p>').text("Unavailable")
+                    fourthRow.append(available)
+                    cardDiv.append(fourthRow)
+                }
+            }
+                //     hotelList.push({id: data.data[0].hotel.hotelId, name: data.data[0].hotel.name, price: data.data[0].offers.price.total})
+                // } else if(data[0].offers.price.total < hotelList[0].price) {
+                //     hotelList.unshift({id: data.data[0].hotel.hotelId, name: data.data[0].hotel.name, price: data.data[0].offers.price.total})
+                // }
+    })
+}
+
+
+    // const hotelCode = data.data[i].hotelId;
+    // const indUrl = `https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=${hotelCode}&adults=1&checkInDate=${startDateVal}&checkOutDate=${endDateVal}&roomQuantity=1&currency=GBP&paymentPolicy=NONE&includeClosed=false&bestRateOnly=true`
+    // const indOptions = {method:"get",
+    // headers: {
+    //     'Content-Type': "/shopping/hotel-offers",
+    //     'Authorization' : `Bearer ${token}`}}
+    //     fetch(indUrl, indOptions).then(function (response) {
+    //         return response.json();
+    //       })
+    //       .then(function (data) {
+    //         if(hotelList.length = 0) { 
+    //             hotelList.push({id: data.data[0].hotel.hotelId, name: data.data[0].hotel.name, price: data.data[0].offers.price.total})
+    //         } else if(data[0].offers.price.total < hotelList[0].price) {
+    //             hotelList.unshift({id: data.data[0].hotel.hotelId, name: data.data[0].hotel.name, price: data.data[0].offers.price.total})
+    //         }
+    //         if(hotelList.length > 5) {
+    //             hotelList.length = 5
+    //         }
 
 // // Bahar - Tripadvisor Hotel Search
 //     // API Key, Url
