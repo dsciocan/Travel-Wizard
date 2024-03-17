@@ -14,7 +14,7 @@
     <link rel="stylesheet" href = "assets/style.css">
     <title>Travel Wizard</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./assets/img/favicon.ico">
 </head>
 <body>
 <!-- navbar -->
@@ -22,18 +22,18 @@
 <nav class="navbar navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="/assets/img/favicon.ico" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+      <img src="./assets/img/favicon.ico" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
       Travel Wizard
     </a>
     <ul class="nav justify-content-end">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Search</a>
+        <a class="nav-link active" aria-current="page" href="#search">Search</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Random Destinations</a>
+        <a class="nav-link" href="#suggested">Suggested Destinations</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Contact Us</a>
+        <a class="nav-link" href="#contact">Contact Us</a>
       </li>
     </ul>
   </div>
@@ -68,9 +68,11 @@
          <!--Text-->
       </div>
       <div class="col-lg-6">
-        <h1 class="display-4">Travel Wizard</h1>
-        <h3 class="display-6">Plan your trip so smoothly it feels like magic!</h3>
-        <p class="lead">Search for a destination below or check out our suggestions</p>
+        <h1 class="display-4">Solo Travelers</h1>
+        <h3 class="display-6">Plan your trip so smoothly it feels like magic with Travel Wizard!</h3>
+      </div>
+      <div>
+        <p class="lead text-center">Search for a destination below or check out our suggestions</p>
       </div>
     </div>
   </div>
@@ -80,7 +82,7 @@
 
 <!-- User Input Section-->
 <div class="container-fluid" id="input-card">
-    <div class="card text-center col-md-7 mx-auto" >
+    <div class="card text-center col-md-7 mx-auto" id="search">
         <!--Section header-->
         <div class="card-header">
             <h2><i class="fa-solid fa-earth-americas"></i> How does your trip look? </h2>
@@ -112,30 +114,6 @@
             <div class="row">
                 <span id="EndDateError"></span>
             </div>
-<!--Passenger number row-->
-            <div class="row">
-                <div class="input-group mb-3">
-                    <label for="basic-url" class="form-label col-md-3">No. of Passengers:</label>
-                    <select class="form-select col-md-3 input" id="adult-dropdown" aria-label="Default select example">
-                        <option selected>Adults</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                    <select class="form-select col-md-3 input" id="senior-dropdown" aria-label="Default select example">
-                        <option selected>Seniors</option>
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
-            </div>
 <!--Search button-->
             <div>
                 <button type="button" class="btn btn-dark col-md-2" id="search-button">Search</button>
@@ -164,7 +142,6 @@
                 <h3> Best hotel deals for you </h3>
             </div>
             <div class="card-body hotel-cards"> 
-                Coming soon!
             </div>
     </div>
     <!--Weather section-->
@@ -173,6 +150,15 @@
                 <h3>Don't forget to check the weather! </h3>
             </div>
             <div class="card-body weather-cards"> 
+              <!-- WEATHER API -->
+              <h5>Here are the average weather conditions for your arrival city for the specified period*</h5>
+              <p id="min-temp">Minimum Temperature: </p>
+              <p id="max-temp">Maximum Temperature: </p>
+              <p id="extra-info"></p>
+              <p id="precipitation">Precipitation: </p>
+              <p id="wind">Wind speed: </p>
+
+              <p id="disclaimer">* Data is based on previous year conditions.</p>
             </div>
     </div>
 </div>
@@ -182,7 +168,7 @@
 <!-- Cards section -->
 
 <div class="container mt-4">
-    <div class="row text-center suggestion-text">
+    <div class="row text-center suggestion-text" id="suggested">
         <h4>Suggested Destinations</h4>
     </div>
   <div class="row row-cols-1 row-cols-md-3 g-4 destination-cards">
@@ -229,37 +215,9 @@
       </div>
   </div>
 </div> -->
-<!-- WEATHER API -->
-<div class="search">
-  <!-- add input field -->
-  <input type="text" placeholder="enter city name" spellcheck="false">
-  <button><i class="fas fa-search"></i></button>
-  </div>
-  <!-- addind the information that will be generated in the search results -->
-  <div class="weather">
-      <div>
-        <p class="temp"></p>
-        <p>temperature</p>
-      </div>
-      <div>
-        <p class="city"></p>
-        <p>city</p>
-      </div>
-        <div>
-          <p class="humidity"></p>
-          <p>humidity</p>
-        </div>
-        <div>
-          <p class="wind"></p>
-          <p>wind speed</p>
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
+
 <!-- Footer -->
-<footer class="bg-dark text-center text-white">
+<footer class="bg-dark text-center text-white" id="contact">
     <!-- Grid container -->
     <div class="container p-4">
       <!-- Section: Social media -->
@@ -277,7 +235,7 @@
         <!-- Linkedin -->
         <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
         <!-- Github -->
-        <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><i class="fab fa-github"></i></a>
+        <a class="btn btn-outline-light btn-floating m-1" href="https://github.com/dsciocan/Travel-Wizard" target="_blank" role="button"><i class="fab fa-github"></i></a>
       </section>
       <!-- Section: Social media -->
   
@@ -322,75 +280,13 @@
       <section class="mb-4">
         <h2 class="text-uppercase" style="color: #ffffff;">About Us</h2>
         <p style="color: #ffffff;">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio earum
-          repellat quaerat voluptatibus placeat nam, commodi optio pariatur est quia magnam
-          eum harum corrupti dicta, aliquam sequi voluptate quas.
+Info to be updated
         </p>
       </section>
       <!-- Section: Text -->
   
       <!-- Section: Links -->
       <section class="">
-        <!--Grid row-->
-        <div class="row">
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase" style="color: #ffffff;">Links</h5>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-  
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase" style="color: #ffffff;">Links</h5>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-  
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase" style="color: #ffffff;">Links</h5>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-            </ul>
-          </div>
-          <!--Grid column-->
-  
-          <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase" style="color: #ffffff;">Links</h5>
-  
-            <ul class="list-unstyled mb-0">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-            </ul>
-          </div>
           <!--Grid column-->
         </div>
         <!--Grid row-->
@@ -401,7 +297,7 @@
   
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-      © 2023 Copyright:
+      © 2024 Copyright:
       <a class="text-white" href="#">Travel Wizard</a>
     </div>
     <!-- Copyright -->
