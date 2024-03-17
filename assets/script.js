@@ -39,9 +39,9 @@ var toCity; //var to be used as api parameter for hotel city
 //From field autocomplete
 $(document).ready(function() { 
     var autocomplete = [];
-    var names = $.map(airports, function(o) { return o["name"]; }) 
-    var codes = $.map(airports, function(o) { return o["iata"]; })
-    var cities = $.map(airports, function(o) { return o["city"]; })
+    var names = $.map(airports, (o) => {return o["name"]}) 
+    var codes = $.map(airports, (o) => { return o["iata"]; })
+    var cities = $.map(airports, (o) => { return o["city"]; })
     var searchCodes = [];
     for(i=0;i<names.length;i++) {
         if(names[i].search("Station") == -1) {
@@ -106,33 +106,72 @@ $(document).ready(function() {
 })
 
 // weather API from https://openweathermap.org/
-var apiKey = "1fd1536f1b205d864c414f1b46152fdb";
-var apiurl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-// the city name comes from the input field  
-var searchBox = document.querySelector(".search input");
-var searchBtn = document.querySelector(".search button");
-// "data" gets all the infor about the weather from the selected city 
-var data;
-// create a function to get the information from the api
-function checkWeather(city) { 
-    var response = fetch(apiurl + city + `&appid=${apiKey}`).then(function (response) {
-             return response.json();
-           })
-           .then(function (data) {
-             console.log(data);
+let lat;
+let lon;
+function getWeather(city, sday, smonth, eday, emonth) {
+    var url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=3d5d46ebf5dd4b750748582bded330ad`
+    fetch(url)
+    .then(function(response) 
+    {
+        return response.json();
+    })
+    .then(function (data) {
+        lat = data[0].lat;
+        lon = data[0].lon;
+        var apiurl = ` https://archive-api.open-meteo.com/v1/archive?latitude=${lat}&longitude=${lon}&start_date=2023-${smonth}-${sday}&end_date=2023-${emonth}-${eday}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max`;
+        fetch(apiurl + `&appid=3d5d46ebf5dd4b750748582bded330ad`).then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            console.log(data);
+            const tempMin = averageArr(data.daily.temperature_2m_min).toFixed(2)
+            const tempMax = averageArr(data.daily.temperature_2m_max).toFixed(2)
+            const precip = averageArr(data.daily.precipitation_sum).toFixed(2)
+            const wind = averageArr(data.daily.wind_speed_10m_max).toFixed(2)
+            document.getElementById("min-temp").append(`${tempMin}°C`)
+            if(tempMin < 15) {
+                document.getElementById("max-temp").append(`${tempMax}°C`)
+                document.getElementById("extra-info").append("-Make sure to pack some warm clothes!-")
+            } else if (tempMax > 25) {
+                document.getElementById("max-temp").append(`${tempMax}°C`)
+                document.getElementById("extra-info").append("-Make sure to pack some T-shirts!-")
+            } else {
+                document.getElementById("max-temp").append(`${tempMax}°C`)
+            }
+            document.getElementById("precipitation").append(`${precip}mm`)
+            document.getElementById("wind").append(`${wind}km/h`)
 // select elements from html to update the data we need to display
-document.querySelector(".city").innerHTML = data.name;
-document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
-document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+          })
+    })
+}
 
-           })
+
+function averageArr(arr) {
+    let sum = 0;
+    for( let j=0;j<arr.length;j++) {
+        sum = sum + arr[j]
+    }
+    let avg = sum/arr.length
+    return avg
+}
+
+
+// // create a function to get the information from the api
+// function checkWeather(url) { 
+
+//     geocoding(toCity)
+//     fetch(url + `&appid=${apiKey}`).then(function (response) {
+//              return response.json();
+//            })
+//            .then(function (data) {
+//              console.log(data);
+// // select elements from html to update the data we need to display
+//            })
 
      
-}
+// }
 // create a button to send the info input to checkWeather()
 // searchBtn.addEventListener("click", () => {
-    
 
 // })
 
@@ -167,8 +206,12 @@ $("#search-button").on('click', function() {
     $(".results").prepend(loading)
     flightInfo()
     // initiateHotelSearch();
-    checkWeather(toCity);
-    console.log(JSON.stringify(data));
+    const startMonth = startDateVal.substring(5,7)
+    const startDay = startDateVal.substring(8,10)
+    const endMonth = endDateVal.substring(5,7) 
+    const endDay = endDateVal.substring(8,10)
+    getWeather(toCity, startDay, startMonth, endDay, endMonth)
+    // console.log(JSON.stringify(data));
     getToken();
 });
 
@@ -240,7 +283,10 @@ function flightInfo() {
                 loading.addClass("hidden");
             })
         } catch (error) {
-            console.error(error);
+            console.log(error)
+            $(".flight-cards").append("Could not find flights for specified dates/cities, please try a different combination!");
+            $("#results").removeClass("hidden");
+            loading.addClass("hidden");
         }
     }
  
@@ -308,6 +354,9 @@ function getToken() {
 
 catch (error) {
     console.error(error);
+    $(".hotel-cards").append("Could not find hotels matching the destinations/dates. Please try something else.");
+    $("#results").removeClass("hidden");
+    loading.addClass("hidden");
 }
     }
 
